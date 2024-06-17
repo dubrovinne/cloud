@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import './Sort.css'
 
 function Sort({ sortFiles }) {
@@ -8,12 +9,20 @@ function Sort({ sortFiles }) {
 
 	return (
 		<div className='sort-container'>
-			<select onChange={handleSortChange}>
-				<option value=''>Выберите сортировку</option>
-				<option value='date'>По дате загрузки</option>
-				<option value='name-asc'>По имени (A-Z/А-Я)</option>
-				<option value='name-desc'>По имени (Z-A/Я-А)</option>
-			</select>
+			<FormControl variant='outlined' className='sort-form-control'>
+				<InputLabel id='sort-label'>Сортировка</InputLabel>
+				<Select
+					labelId='sort-label'
+					id='sort-select'
+					defaultValue='date'
+					onChange={handleSortChange}
+					label='Сортировка'
+				>
+					<MenuItem value='date'>По дате загрузки</MenuItem>
+					<MenuItem value='name-asc'>По имени (A-Z/А-Я)</MenuItem>
+					<MenuItem value='name-desc'>По имени (Z-A/Я-А)</MenuItem>
+				</Select>
+			</FormControl>
 		</div>
 	)
 }

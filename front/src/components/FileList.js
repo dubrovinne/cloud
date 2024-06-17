@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './FileList.css'
-import Sort from './Sort'
+import { Pagination } from '@mui/material'
 
-function FileList({ refreshKey }) {
+function FileList({ refreshKey, sortCriteria }) {
 	const [files, setFiles] = useState([])
 	const [currentPage, setCurrentPage] = useState(1)
-	const [sortCriteria, setSortCriteria] = useState('')
 	const filesPerPage = 8
 
 	useEffect(() => {
@@ -38,42 +37,62 @@ function FileList({ refreshKey }) {
 		return sortedFiles
 	}
 
+	const getFileNameWithoutExtension = fileName => {
+		const dotIndex = fileName.lastIndexOf('.')
+		return dotIndex === -1 ? fileName : fileName.substring(0, dotIndex)
+	}
+
+	const getFileExtension = fileName => {
+		const dotIndex = fileName.lastIndexOf('.')
+		return dotIndex === -1 ? '' : fileName.substring(dotIndex + 1)
+	}
+
 	const sortedFiles = getSortedFiles(files, sortCriteria)
 
 	const indexOfLastFile = currentPage * filesPerPage
 	const indexOfFirstFile = indexOfLastFile - filesPerPage
 	const currentFiles = sortedFiles.slice(indexOfFirstFile, indexOfLastFile)
 
-	const paginate = pageNumber => setCurrentPage(pageNumber)
+	const handlePageChange = (event, value) => {
+		setCurrentPage(value)
+	}
 
 	return (
 		<div className='file-list-container'>
-			<Sort sortFiles={setSortCriteria} />
 			<div className='file-list'>
 				{currentFiles.map((file, index) => (
 					<div key={index} className='file-item'>
 						<div className='file-name'>
 							<a href={`http://localhost:5000${file.url}`} download={file.name}>
-								{file.name}
+								{getFileNameWithoutExtension(file.name)}
 							</a>
 						</div>
 						<div className='file-details'>
-							<span>Размер: {file.size} Б</span>
-							<span>Тип: {file.type}</span>
-							<span>Изменен: {new Date(file.modified).toLocaleString()}</span>
+							<span>
+								Размер: <span className='file-data'>{file.size} Б</span>
+							</span>
+							<span>
+								Тип:{' '}
+								<span className='file-data'>{getFileExtension(file.name)}</span>
+							</span>
+							<span>
+								Изменен:{' '}
+								<span className='file-data'>
+									{new Date(file.modified).toLocaleString()}
+								</span>
+							</span>
 						</div>
 					</div>
 				))}
 			</div>
 			<div className='pagination'>
-				{Array.from(
-					{ length: Math.ceil(sortedFiles.length / filesPerPage) },
-					(_, index) => (
-						<button key={index + 1} onClick={() => paginate(index + 1)}>
-							{index + 1}
-						</button>
-					)
-				)}
+				<Pagination
+					count={Math.ceil(sortedFiles.length / filesPerPage)}
+					page={currentPage}
+					onChange={handlePageChange}
+					variant='outlined'
+					shape='rounded'
+				/>
 			</div>
 		</div>
 	)

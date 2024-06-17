@@ -3,10 +3,12 @@ import './App.css'
 import Login from './components/Login'
 import FileList from './components/FileList'
 import Upload from './components/Upload'
+import Sort from './components/Sort' // Добавляем импорт компонента Sort
 
 function App() {
 	const [token, setToken] = useState(localStorage.getItem('token') || '')
 	const [refreshKey, setRefreshKey] = useState(0)
+	const [sortCriteria, setSortCriteria] = useState('date') // Определяем состояние для сортировки
 
 	useEffect(() => {
 		if (token) {
@@ -28,8 +30,17 @@ function App() {
 				</div>
 			) : (
 				<div className='Content'>
-					<Upload refreshFileList={refreshFileList} />
-					<FileList refreshKey={refreshKey} />
+					<div className='container'>
+						<div className='upload-sort-container'>
+							<Upload refreshFileList={refreshFileList} />
+							<Sort sortFiles={setSortCriteria} />
+						</div>
+						<FileList
+							refreshKey={refreshKey}
+							refreshFileList={refreshFileList}
+							sortCriteria={sortCriteria} // Передаем критерий сортировки в FileList
+						/>
+					</div>
 				</div>
 			)}
 		</div>

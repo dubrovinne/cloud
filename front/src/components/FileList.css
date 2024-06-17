@@ -1,62 +1,58 @@
 .file-list-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .file-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    width: 100%;
-    max-width: 800px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 16px;
+	width: 100%;
+	max-width: 800px;
 }
 
 .file-item {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
+	background-color: #181818;
+	border-color: #121212;
+	padding: 16px;
+	text-align: center;
 }
 
 .file-name a {
-    font-weight: bold;
-    color: #007bff;
-    text-decoration: none;
+	font-weight: bold;
+	color: #fff;
+	text-decoration: none !important;
 }
 
 .file-name a:hover {
-    text-decoration: underline;
+	color: #ffdb4d;
 }
 
 .file-details {
-    margin-top: 8px;
-    font-size: 14px;
-    color: #555;
+	display: flex;
+	flex-direction: column;
+    text-align: left;
+	margin-top: 16px;
+	font-size: 14px;
+	color: #fff;
 }
+
+.file-details .file-data {
+	color: #ffdb4d;
+}
+
+.file-details span {
+	margin-bottom: 8px;
+}
+
 
 .pagination {
-    display: flex;
-    gap: 8px;
-    margin-top: 16px;
+	display: flex;
+	gap: 8px;
+	margin-top: 16px;
 }
-
-.catalog-button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-}
-
-.catalog-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.catalog-button:hover {
-    background-color: #0056b3;
+.pagination button {
+	color: #000 !important;
+	background-color: #ffdb4d !important;
 }
