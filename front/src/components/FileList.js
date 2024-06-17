@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './FileList.css'
+import Sort from './Sort'
 
 function FileList({ refreshKey }) {
 	const [files, setFiles] = useState([])
 	const [currentPage, setCurrentPage] = useState(1)
+	const [sortCriteria, setSortCriteria] = useState('')
 	const filesPerPage = 8
 
 	useEffect(() => {
@@ -24,15 +26,29 @@ function FileList({ refreshKey }) {
 			.catch(error => console.error('Ошибка при получении файлов:', error))
 	}
 
+	const getSortedFiles = (files, criteria) => {
+		let sortedFiles = [...files]
+		if (criteria === 'date') {
+			sortedFiles.sort((a, b) => new Date(b.modified) - new Date(a.modified))
+		} else if (criteria === 'name-asc') {
+			sortedFiles.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+		} else if (criteria === 'name-desc') {
+			sortedFiles.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
+		}
+		return sortedFiles
+	}
+
+	const sortedFiles = getSortedFiles(files, sortCriteria)
+
 	const indexOfLastFile = currentPage * filesPerPage
 	const indexOfFirstFile = indexOfLastFile - filesPerPage
-	const currentFiles = files.slice(indexOfFirstFile, indexOfLastFile)
+	const currentFiles = sortedFiles.slice(indexOfFirstFile, indexOfLastFile)
 
 	const paginate = pageNumber => setCurrentPage(pageNumber)
 
 	return (
 		<div className='file-list-container'>
-			<h2>Список файлов</h2>
+			<Sort sortFiles={setSortCriteria} />
 			<div className='file-list'>
 				{currentFiles.map((file, index) => (
 					<div key={index} className='file-item'>
@@ -51,7 +67,7 @@ function FileList({ refreshKey }) {
 			</div>
 			<div className='pagination'>
 				{Array.from(
-					{ length: Math.ceil(files.length / filesPerPage) },
+					{ length: Math.ceil(sortedFiles.length / filesPerPage) },
 					(_, index) => (
 						<button key={index + 1} onClick={() => paginate(index + 1)}>
 							{index + 1}

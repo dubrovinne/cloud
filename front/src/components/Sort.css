@@ -1,0 +1,12 @@
+.sort-container {
+	margin: 20px;
+}
+
+.sort-container h2 {
+	margin-bottom: 10px;
+}
+
+.sort-container select {
+	padding: 5px;
+	font-size: 16px;
+}

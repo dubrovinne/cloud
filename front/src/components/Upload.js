@@ -28,7 +28,6 @@ function Upload({ refreshFileList }) {
 
 	return (
 		<div className='upload-container'>
-			<h2>Загрузка файла</h2>
 			<input type='file' id='fileInput' onChange={handleFileChange} />
 			<label htmlFor='fileInput'>Выберите файл</label>
 			{message && <p>{message}</p>}

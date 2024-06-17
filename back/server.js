@@ -18,6 +18,7 @@ if (!fs.existsSync(filesDirectory)) {
 
 app.use(bodyParser.json())
 
+// Подключаем маршруты
 app.use('/api', fileRoutes)
 app.use('/api', authRoutes)
 app.use('/api', uploadRoutes)
